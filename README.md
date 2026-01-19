@@ -23,11 +23,18 @@ dependencies:
 
 ### Android Setup
 
-Add the following permission to your Android Manifest (`android/app/src/main/AndroidManifest.xml`):
+Add the following permissions to your Android Manifest (`android/app/src/main/AndroidManifest.xml`):
 
 ```xml
 <uses-permission android:name="android.permission.SEND_SMS"/>
+<!-- Optional: Required only for dual SIM support -->
+<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 ```
+
+**Note about READ_PHONE_STATE permission:**
+- This permission is **optional** and only needed if you want to use dual SIM functionality
+- If not granted, the plugin will automatically fall back to using the default SIM card
+- This ensures the plugin works reliably even on devices with stricter security policies or when distributed outside Google Play
 
 ### Usage
 
@@ -43,6 +50,13 @@ bool hasPermission = await smsSender.checkSmsPermission();
 // Request permission if needed
 if (!hasPermission) {
   hasPermission = await smsSender.requestSmsPermission();
+}
+
+// Optional: Check and request READ_PHONE_STATE permission for dual SIM support
+// If not granted, the plugin will use the default SIM card
+bool hasPhoneStatePermission = await smsSender.checkPhoneStatePermission();
+if (!hasPhoneStatePermission) {
+  hasPhoneStatePermission = await smsSender.requestPhoneStatePermission();
 }
 
 // Send SMS
@@ -67,12 +81,24 @@ if (hasPermission) {
 To send an SMS using a specific SIM card:
 
 ```dart
+// Optional: Request READ_PHONE_STATE permission for dual SIM support
+bool hasPhoneStatePermission = await smsSender.checkPhoneStatePermission();
+if (!hasPhoneStatePermission) {
+  hasPhoneStatePermission = await smsSender.requestPhoneStatePermission();
+}
+
 await smsSender.sendSms(
   phoneNumber: '+1234567890',
   message: 'Hello!',
   simSlot: 1, // Use second SIM card
 );
 ```
+
+**Important Notes:**
+- Dual SIM support requires the `READ_PHONE_STATE` permission
+- If this permission is not granted, the plugin will automatically fall back to using the default SIM card
+- This ensures compatibility across all devices, including those with stricter security policies
+- The fallback mechanism works reliably even when apps are installed from unknown sources
 
 ### Long Messages
 

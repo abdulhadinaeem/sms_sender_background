@@ -1,6 +1,6 @@
 name: sms_sender_background
 description: A Flutter plugin for sending SMS messages with support for dual SIM cards, permission handling, and multi-part messages.
-version: 1.0.5
+version: 1.0.6
 homepage: https://github.com/abdulhadinaeem/sms_sender_background
 repository: https://github.com/abdulhadinaeem/sms_sender_background
 issue_tracker: https://github.com/abdulhadinaeem/sms_sender_background/issues
