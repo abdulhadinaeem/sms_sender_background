@@ -1,4 +1,4 @@
-## 1.0.6
+## 1.0.7
 
 **Bug Fixes:**
 * Fixed SecurityException on devices with stricter security policies when using dual SIM functionality
